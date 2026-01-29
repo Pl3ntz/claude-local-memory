@@ -23,7 +23,7 @@ Your agent remembers what you worked on - across sessions, across projects.
 /plugin install claude-supermemory
 
 # Set your API key
-export SUPERMEMORY_API_KEY="sm_..."
+export SUPERMEMORY_CC_API_KEY="sm_..."
 ```
 
 Get your API key at [console.supermemory.ai](https://console.supermemory.ai).
@@ -59,13 +59,23 @@ Tool usage is automatically captured:
 | Bash  | `Ran: npm test (SUCCESS/FAILED)`                    |
 | Task  | `Spawned agent: explore codebase`                   |
 
+## Commands
+
+### /claude-supermemory:logout
+
+Log out from Supermemory and clear saved credentials. Use this to re-authenticate or switch accounts.
+
+```
+/claude-supermemory:logout
+```
+
 ## Configuration
 
 ### Environment Variables
 
 ```bash
 # Required
-SUPERMEMORY_API_KEY=sm_...
+SUPERMEMORY_CC_API_KEY=sm_...
 
 # Optional
 SUPERMEMORY_SKIP_TOOLS=Read,Glob,Grep    # Tools to not capture
