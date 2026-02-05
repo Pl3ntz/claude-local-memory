@@ -99,7 +99,7 @@ describe('format-context', () => {
       });
       expect(result).toContain('User Profile (Persistent)');
       expect(result).toContain('prefers dark mode');
-      expect(result).toContain('<supermemory-context>');
+      expect(result).toContain('<local-memory-context>');
     });
 
     it('should format dynamic facts', () => {

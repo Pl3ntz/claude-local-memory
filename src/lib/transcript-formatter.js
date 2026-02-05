@@ -146,6 +146,7 @@ function cleanContent(text) {
 
   return text
     .replace(/<system-reminder>[\s\S]*?<\/system-reminder>/g, '')
+    .replace(/<local-memory-context>[\s\S]*?<\/local-memory-context>/g, '')
     .replace(/<supermemory-context>[\s\S]*?<\/supermemory-context>/g, '')
     .trim();
 }

@@ -31,10 +31,10 @@ async function main() {
       writeOutput({
         hookSpecificOutput: {
           hookEventName: 'SessionStart',
-          additionalContext: `<supermemory-context>
+          additionalContext: `<local-memory-context>
 No previous memories found for this project.
 Memories will be saved as you work.
-</supermemory-context>`,
+</local-memory-context>`,
         },
       });
       return;
@@ -53,10 +53,10 @@ Memories will be saved as you work.
     writeOutput({
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
-        additionalContext: `<supermemory-status>
+        additionalContext: `<local-memory-status>
 Failed to load memories: ${err.message}
 Session will continue without memory context.
-</supermemory-status>`,
+</local-memory-status>`,
       },
     });
   }

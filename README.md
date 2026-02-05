@@ -30,7 +30,7 @@ No API key required. The plugin creates `~/.local-memory/memory.db` automaticall
 The plugin searches local memories and injects relevant context:
 
 ```
-<supermemory-context>
+<local-memory-context>
 The following is recalled context about the user...
 
 ## User Profile (Persistent)
@@ -40,7 +40,7 @@ The following is recalled context about the user...
 ## Recent Context
 - Working on authentication flow
 
-</supermemory-context>
+</local-memory-context>
 ```
 
 ### During Session

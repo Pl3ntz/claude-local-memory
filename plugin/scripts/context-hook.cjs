@@ -86,7 +86,7 @@ var E=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var w=E((je,x)=>{v
 `+u.map(f=>`- ${f}`).join(`
 `)),d.length>0){let f=d.map(p=>{let Q=p.memory??"",M=p.updatedAt?z(p.updatedAt):"",ee=p.similarity!=null?`[${Math.round(p.similarity*100)}%]`:"";return`- ${M?`[${M}] `:""}${Q} ${ee}`.trim()});l.push(`## Relevant Memories (with relevance %)
 `+f.join(`
-`))}return`<supermemory-context>
+`))}return`<local-memory-context>
 The following is recalled context about the user. Reference it only when relevant to the conversation.
 
 ${l.join(`
@@ -94,10 +94,10 @@ ${l.join(`
 `)}
 
 Use these memories naturally when relevant \u2014 including indirect connections \u2014 but don't force them into every response or make assumptions beyond what's stated.
-</supermemory-context>`}V.exports={formatContext:De,formatRelativeTime:z,deduplicateMemories:K}});var{LocalMemoryClient:Me}=v(),{getContainerTag:Fe,getProjectName:Ue}=G(),{loadSettings:Ce,debugLog:I}=B(),{readStdin:xe,writeOutput:D}=J(),{formatContext:we}=Z();async function be(){let e=Ce();try{let n=(await xe()).cwd||process.cwd(),o=Fe(n),r=Ue(n);I(e,"SessionStart",{cwd:n,containerTag:o,projectName:r});let a=await new Me(o).getProfile(o,r).catch(()=>null),s=we(a,!0,!1,e.maxProfileItems);if(!s){D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:`<supermemory-context>
+</local-memory-context>`}V.exports={formatContext:De,formatRelativeTime:z,deduplicateMemories:K}});var{LocalMemoryClient:Me}=v(),{getContainerTag:Fe,getProjectName:Ue}=G(),{loadSettings:Ce,debugLog:I}=B(),{readStdin:xe,writeOutput:D}=J(),{formatContext:we}=Z();async function be(){let e=Ce();try{let n=(await xe()).cwd||process.cwd(),o=Fe(n),r=Ue(n);I(e,"SessionStart",{cwd:n,containerTag:o,projectName:r});let a=await new Me(o).getProfile(o,r).catch(()=>null),s=we(a,!0,!1,e.maxProfileItems);if(!s){D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:`<local-memory-context>
 No previous memories found for this project.
 Memories will be saved as you work.
-</supermemory-context>`}});return}I(e,"Context generated",{length:s.length}),D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:s}})}catch(t){I(e,"Error",{error:t.message}),console.error(`LocalMemory: ${t.message}`),D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:`<supermemory-status>
+</local-memory-context>`}});return}I(e,"Context generated",{length:s.length}),D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:s}})}catch(t){I(e,"Error",{error:t.message}),console.error(`LocalMemory: ${t.message}`),D({hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:`<local-memory-status>
 Failed to load memories: ${t.message}
 Session will continue without memory context.
-</supermemory-status>`}})}}be().catch(e=>{console.error(`LocalMemory fatal: ${e.message}`),process.exit(1)});
+</local-memory-status>`}})}}be().catch(e=>{console.error(`LocalMemory fatal: ${e.message}`),process.exit(1)});

@@ -80,7 +80,12 @@ describe('transcript-formatter', () => {
       expect(cleanContent(text)).toBe('hello  world');
     });
 
-    it('should remove supermemory-context tags', () => {
+    it('should remove local-memory-context tags', () => {
+      const text = 'before <local-memory-context>ctx</local-memory-context> after';
+      expect(cleanContent(text)).toBe('before  after');
+    });
+
+    it('should remove legacy supermemory-context tags', () => {
       const text = 'before <supermemory-context>ctx</supermemory-context> after';
       expect(cleanContent(text)).toBe('before  after');
     });

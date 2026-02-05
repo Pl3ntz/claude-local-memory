@@ -111,7 +111,7 @@ function formatContext(
   const disclaimer =
     "Use these memories naturally when relevant — including indirect connections — but don't force them into every response or make assumptions beyond what's stated.";
 
-  return `<supermemory-context>\n${intro}\n\n${sections.join('\n\n')}\n\n${disclaimer}\n</supermemory-context>`;
+  return `<local-memory-context>\n${intro}\n\n${sections.join('\n\n')}\n\n${disclaimer}\n</local-memory-context>`;
 }
 
 module.exports = {
