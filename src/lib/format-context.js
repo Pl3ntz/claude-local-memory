@@ -93,8 +93,12 @@ function formatContext(
   }
 
   if (search.length > 0) {
+    const MAX_MEMORY_LENGTH = 500;
     const lines = search.map((r) => {
-      const memory = r.memory ?? '';
+      const rawMemory = r.memory ?? '';
+      const memory = rawMemory.length > MAX_MEMORY_LENGTH
+        ? `${rawMemory.slice(0, MAX_MEMORY_LENGTH)}...`
+        : rawMemory;
       const timeStr = r.updatedAt ? formatRelativeTime(r.updatedAt) : '';
       const pct =
         r.similarity != null ? `[${Math.round(r.similarity * 100)}%]` : '';
