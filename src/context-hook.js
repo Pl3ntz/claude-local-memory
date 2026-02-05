@@ -22,8 +22,8 @@ async function main() {
 
     const additionalContext = formatContext(
       profileResult,
+      settings.injectProfile,
       true,
-      false,
       settings.maxProfileItems,
     );
 
