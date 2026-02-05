@@ -45,27 +45,13 @@ async function main() {
         console.log(content.slice(0, 500));
       });
     } else {
-      const searchResult = await client.search(query, containerTag, {
-        limit: 10,
-      });
-      if (searchResult.results?.length > 0) {
-        console.log('### Relevant Memories');
-        searchResult.results.forEach((mem, i) => {
-          const similarity = Math.round(mem.similarity * 100);
-          const content = mem.memory || mem.content || '';
-          console.log(`\n**Memory ${i + 1}** (${similarity}% match)`);
-          if (mem.title) console.log(`*${mem.title}*`);
-          console.log(content.slice(0, 500));
-        });
-      } else {
-        console.log('No memories found matching your query.');
-        console.log(
-          'Memories are automatically saved as you work in this project.',
-        );
-      }
+      console.log('No memories found matching your query.');
+      console.log(
+        'Memories are automatically saved as you work in this project.',
+      );
     }
   } catch (err) {
-    console.log(`Error searching memories: ${err.message}`);
+    console.error(`Error searching memories: ${err.message}`);
   }
 }
 

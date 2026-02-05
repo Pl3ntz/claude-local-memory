@@ -61,12 +61,12 @@ Index your codebase into local memory. Explores project structure, architecture,
 /claude-local-memory:index
 ```
 
-### /claude-local-memory:clear-memory
+### /claude-local-memory:logout
 
 Clear all memories for the current project.
 
 ```
-/claude-local-memory:clear-memory
+/claude-local-memory:logout
 ```
 
 ## Configuration
@@ -86,9 +86,10 @@ Create `~/.local-memory/settings.json`:
 
 ```json
 {
-  "skipTools": ["Read", "Glob", "Grep", "TodoWrite"],
+  "skipTools": ["Read", "Glob", "Grep", "TodoWrite", "AskUserQuestion"],
   "captureTools": ["Edit", "Write", "Bash", "Task"],
   "maxProfileItems": 5,
+  "injectProfile": true,
   "debug": false
 }
 ```

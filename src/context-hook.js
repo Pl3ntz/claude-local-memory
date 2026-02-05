@@ -54,8 +54,7 @@ Memories will be saved as you work.
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
         additionalContext: `<local-memory-status>
-Failed to load memories: ${err.message}
-Session will continue without memory context.
+Failed to load memories. Session will continue without memory context.
 </local-memory-status>`,
       },
     });

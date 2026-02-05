@@ -20,22 +20,25 @@ function ensureSettingsDir() {
 }
 
 function loadSettings() {
-  const settings = { ...DEFAULT_SETTINGS };
+  let settings = { ...DEFAULT_SETTINGS };
   try {
     if (fs.existsSync(SETTINGS_FILE)) {
       const fileContent = fs.readFileSync(SETTINGS_FILE, 'utf-8');
-      Object.assign(settings, JSON.parse(fileContent));
+      settings = { ...settings, ...JSON.parse(fileContent) };
     }
   } catch (err) {
     console.error(`Settings: Failed to load ${SETTINGS_FILE}: ${err.message}`);
   }
   if (process.env.LOCAL_MEMORY_SKIP_TOOLS) {
-    settings.skipTools = process.env.LOCAL_MEMORY_SKIP_TOOLS.split(',').map(
-      (s) => s.trim(),
-    );
+    settings = {
+      ...settings,
+      skipTools: process.env.LOCAL_MEMORY_SKIP_TOOLS.split(',').map(
+        (s) => s.trim(),
+      ),
+    };
   }
   if (process.env.LOCAL_MEMORY_DEBUG === 'true') {
-    settings.debug = true;
+    settings = { ...settings, debug: true };
   }
   return settings;
 }
@@ -43,7 +46,7 @@ function loadSettings() {
 function saveSettings(settings) {
   ensureSettingsDir();
   const toSave = { ...settings };
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(toSave, null, 2));
+  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(toSave, null, 2), { mode: 0o600 });
 }
 
 function shouldCaptureTool(toolName, settings) {

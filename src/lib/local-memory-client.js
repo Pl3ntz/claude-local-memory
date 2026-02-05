@@ -1,5 +1,5 @@
 const { getDb, closeDb } = require('./database');
-const { sanitizeContent, sanitizeMetadata } = require('./validate-local');
+const { sanitizeContent, sanitizeMetadata, validateContainerTag, validateContentLength } = require('./validate-local');
 
 const DEFAULT_PROJECT_ID = 'claudecode_default';
 
@@ -16,7 +16,9 @@ class LocalMemoryClient {
   async addMemory(content, containerTag, metadata = {}, customId = null) {
     const db = this._getDb();
     const tag = containerTag || this.containerTag;
+    validateContainerTag(tag);
     const sanitized = sanitizeContent(content);
+    validateContentLength(sanitized);
     const safeMeta = sanitizeMetadata({
       sm_source: 'claude-code-plugin',
       ...metadata,
