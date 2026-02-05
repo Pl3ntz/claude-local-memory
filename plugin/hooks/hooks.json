@@ -1,5 +1,5 @@
 {
-  "description": "Supermemory: Persistent memory for Claude Code",
+  "description": "Local Memory: Persistent local memory for Claude Code",
   "hooks": {
     "SessionStart": [
       {

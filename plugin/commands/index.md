@@ -1,11 +1,11 @@
 ---
-description: Index codebase into Supermemory for persistent context
+description: Index codebase into local memory for persistent context
 allowed-tools: ["Read", "Glob", "Grep", "Bash", "Task"]
 ---
 
 # Codebase Indexing
 
-Explore this codebase deeply and compile findings into Supermemory.
+Explore this codebase deeply and compile findings into local memory.
 
 ## Phase 1: Project Overview
 
@@ -45,7 +45,7 @@ Read and note:
 
 Gather: where important logic lives
 
-## Final Step: Save to Supermemory
+## Final Step: Save to Local Memory
 
 After exploring all phases, compile everything into one comprehensive summary and save:
 

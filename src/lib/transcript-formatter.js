@@ -1,33 +1,9 @@
 const fs = require('node:fs');
-const path = require('node:path');
-const os = require('node:os');
 
 const MAX_TOOL_RESULT_LENGTH = 500;
 const SKIP_RESULT_TOOLS = ['Read'];
-const TRACKER_DIR = path.join(os.homedir(), '.supermemory-claude', 'trackers');
 
 let toolUseMap = new Map();
-
-function ensureTrackerDir() {
-  if (!fs.existsSync(TRACKER_DIR)) {
-    fs.mkdirSync(TRACKER_DIR, { recursive: true });
-  }
-}
-
-function getLastCapturedUuid(sessionId) {
-  ensureTrackerDir();
-  const trackerFile = path.join(TRACKER_DIR, `${sessionId}.txt`);
-  if (fs.existsSync(trackerFile)) {
-    return fs.readFileSync(trackerFile, 'utf-8').trim();
-  }
-  return null;
-}
-
-function setLastCapturedUuid(sessionId, uuid) {
-  ensureTrackerDir();
-  const trackerFile = path.join(TRACKER_DIR, `${sessionId}.txt`);
-  fs.writeFileSync(trackerFile, uuid);
-}
 
 function parseTranscript(transcriptPath) {
   if (!fs.existsSync(transcriptPath)) {
@@ -179,13 +155,12 @@ function truncate(text, maxLength) {
   return `${text.slice(0, maxLength)}...`;
 }
 
-function formatNewEntries(transcriptPath, sessionId) {
+function formatNewEntries(transcriptPath, lastCapturedUuid) {
   toolUseMap = new Map();
 
   const entries = parseTranscript(transcriptPath);
   if (entries.length === 0) return null;
 
-  const lastCapturedUuid = getLastCapturedUuid(sessionId);
   const newEntries = getEntriesSinceLastCapture(entries, lastCapturedUuid);
 
   if (newEntries.length === 0) return null;
@@ -211,9 +186,10 @@ function formatNewEntries(transcriptPath, sessionId) {
 
   if (result.length < 100) return null;
 
-  setLastCapturedUuid(sessionId, lastEntry.uuid);
-
-  return result;
+  return {
+    formatted: result,
+    lastUuid: lastEntry.uuid,
+  };
 }
 
 module.exports = {
@@ -223,6 +199,4 @@ module.exports = {
   formatNewEntries,
   cleanContent,
   truncate,
-  getLastCapturedUuid,
-  setLastCapturedUuid,
 };

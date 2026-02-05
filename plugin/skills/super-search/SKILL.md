@@ -6,7 +6,7 @@ allowed-tools: Bash(node:*)
 
 # Super Search
 
-Search Supermemory for past coding sessions, decisions, and saved information.
+Search local memory for past coding sessions, decisions, and saved information.
 
 ## How to Search
 

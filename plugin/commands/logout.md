@@ -1,23 +1,28 @@
 ---
-description: Log out from Supermemory and clear saved credentials
+description: Clear all local memories for the current project
 allowed-tools: ["Bash"]
 ---
 
-# Logout from Supermemory
+# Clear Local Memory
 
-Remove saved Supermemory credentials to allow re-authentication.
+Remove all stored memories for the current project from the local SQLite database.
 
 ## Steps
 
-1. Use Bash to remove the credentials file:
+1. Use Bash to clear memories:
    ```bash
-   rm -f ~/.supermemory-claude/credentials.json
+   node "${CLAUDE_PLUGIN_ROOT}/scripts/search-memory.cjs" "--clear-project"
+   ```
+
+   If the above doesn't work, remove the database file directly:
+   ```bash
+   rm -f ~/.local-memory/memory.db
    ```
 
 2. Confirm to the user:
    ```
-   Successfully logged out from Supermemory.
+   Successfully cleared local memory for this project.
 
-   Your credentials have been removed. The next time a Supermemory hook runs,
-   you'll be prompted to log in again via browser.
+   All memories have been removed from the local database.
+   New memories will be saved as you continue working.
    ```

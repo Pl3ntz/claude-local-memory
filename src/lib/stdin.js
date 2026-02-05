@@ -32,7 +32,7 @@ function outputSuccess(additionalContext = null) {
 }
 
 function outputError(message) {
-  console.error(`Supermemory: ${message}`);
+  console.error(`LocalMemory: ${message}`);
   writeOutput({ continue: true, suppressOutput: true });
 }
 

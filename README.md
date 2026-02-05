@@ -1,42 +1,33 @@
-# Claude-Supermemory
+# Claude Local Memory
 
-<img width="1386" height="258" alt="Screenshot 2026-01-28 at 11 34 13 PM" src="https://github.com/user-attachments/assets/a692791a-a054-495a-ab53-45f1071ff26f" />
-
-> **✨ Requires [Supermemory Pro or above](https://console.supermemory.ai/billing)** - Unlock the state of the art memory for your OpenClaw bot.
-
-A Claude Code plugin that gives your AI persistent memory across sessions using [Supermemory](https://supermemory.ai).
-Your agent remembers what you worked on - across sessions, across projects.
-
+A Claude Code plugin that gives your AI persistent memory across sessions using **local SQLite + FTS5**.
+Zero network calls. All data stays on your machine in `~/.local-memory/`.
 
 ## Features
 
 - **Context Injection**: On session start, relevant memories are automatically injected into Claude's context
 - **Automatic Capture**: Conversation turns are captured and stored for future context
+- **Full-Text Search**: FTS5-powered search with BM25 ranking
 - **Codebase Indexing**: Index your project's architecture, patterns, and conventions
+- **100% Local**: No API keys, no cloud, no network calls
 
 ## Installation
 
 ```bash
 # Add the plugin marketplace
-/plugin marketplace add supermemoryai/claude-supermemory
-
-# Or from local directory
-/plugin marketplace add /path/to/claude-supermemory
+/plugin marketplace add path/to/claude-local-memory
 
 # Install the plugin
-/plugin install claude-supermemory
-
-# Set your API key
-export SUPERMEMORY_CC_API_KEY="sm_..."
+/plugin install claude-local-memory
 ```
 
-Get your API key at [console.supermemory.ai](https://console.supermemory.ai).
+No API key required. The plugin creates `~/.local-memory/memory.db` automatically on first use.
 
 ## How It Works
 
 ### On Session Start
 
-The plugin fetches relevant memories from Supermemory and injects them into Claude's context:
+The plugin searches local memories and injects relevant context:
 
 ```
 <supermemory-context>
@@ -54,28 +45,28 @@ The following is recalled context about the user...
 
 ### During Session
 
-Conversation turns are automatically captured on each stop and stored for future context.
+Conversation turns are automatically captured on session stop and stored locally for future context.
 
 ### Skills
 
-**super-search**: When you ask about past work, previous sessions, or want to recall information, the agent automatically searches your memories.
+**super-search**: When you ask about past work, previous sessions, or want to recall information, the agent automatically searches your local memories.
 
 ## Commands
 
-### /claude-supermemory:index
+### /claude-local-memory:index
 
-Index your codebase into Supermemory. Explores project structure, architecture, conventions, and key files.
-
-```
-/claude-supermemory:index
-```
-
-### /claude-supermemory:logout
-
-Log out from Supermemory and clear saved credentials.
+Index your codebase into local memory. Explores project structure, architecture, conventions, and key files.
 
 ```
-/claude-supermemory:logout
+/claude-local-memory:index
+```
+
+### /claude-local-memory:clear-memory
+
+Clear all memories for the current project.
+
+```
+/claude-local-memory:clear-memory
 ```
 
 ## Configuration
@@ -83,17 +74,15 @@ Log out from Supermemory and clear saved credentials.
 ### Environment Variables
 
 ```bash
-# Required
-SUPERMEMORY_CC_API_KEY=sm_...
-
 # Optional
-SUPERMEMORY_SKIP_TOOLS=Read,Glob,Grep    # Tools to not capture
-SUPERMEMORY_DEBUG=true                    # Enable debug logging
+LOCAL_MEMORY_DIR=~/.local-memory          # Data directory (default: ~/.local-memory)
+LOCAL_MEMORY_SKIP_TOOLS=Read,Glob,Grep    # Tools to not capture
+LOCAL_MEMORY_DEBUG=true                   # Enable debug logging
 ```
 
 ### Settings File
 
-Create `~/.supermemory-claude/settings.json`:
+Create `~/.local-memory/settings.json`:
 
 ```json
 {
@@ -102,6 +91,23 @@ Create `~/.supermemory-claude/settings.json`:
   "maxProfileItems": 5,
   "debug": false
 }
+```
+
+## Architecture
+
+- **Storage**: SQLite with WAL mode via `better-sqlite3`
+- **Search**: FTS5 with Porter stemmer and Unicode61 tokenizer
+- **Ranking**: BM25 similarity scoring (normalized 0-1)
+- **Permissions**: Directory `0700`, database file `0600`
+- **Data**: `~/.local-memory/memory.db` (single file + WAL)
+
+## Development
+
+```bash
+npm install
+npm run build       # Bundle hooks with esbuild
+npm test            # Run vitest
+npm run test:coverage  # Run with coverage (80%+ required)
 ```
 
 ## License

@@ -18,6 +18,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(`Supermemory fatal: ${err.message}`);
+  console.error(`LocalMemory fatal: ${err.message}`);
   process.exit(1);
 });

@@ -1,17 +1,16 @@
 {
-  "name": "supermemory-plugins",
+  "name": "local-memory-plugins",
   "owner": {
-    "name": "Supermemory",
-    "email": "support@supermemory.ai"
+    "name": "claude-local-memory"
   },
   "plugins": [
     {
-      "name": "claude-supermemory",
+      "name": "claude-local-memory",
       "source": "./plugin",
-      "description": "Persistent memory across Claude Code sessions using Supermemory",
-      "version": "0.0.2",
+      "description": "Persistent local memory for Claude Code using SQLite",
+      "version": "0.1.0",
       "author": {
-        "name": "Supermemory"
+        "name": "claude-local-memory"
       }
     }
   ]

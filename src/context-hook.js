@@ -1,8 +1,7 @@
-const { SupermemoryClient } = require('./lib/supermemory-client');
+const { LocalMemoryClient } = require('./lib/local-memory-client');
 const { getContainerTag, getProjectName } = require('./lib/container-tag');
-const { loadSettings, getApiKey, debugLog } = require('./lib/settings');
+const { loadSettings, debugLog } = require('./lib/settings');
 const { readStdin, writeOutput } = require('./lib/stdin');
-const { startAuthFlow } = require('./lib/auth');
 const { formatContext } = require('./lib/format-context');
 
 async function main() {
@@ -16,31 +15,7 @@ async function main() {
 
     debugLog(settings, 'SessionStart', { cwd, containerTag, projectName });
 
-    let apiKey;
-    try {
-      apiKey = getApiKey(settings);
-    } catch {
-      try {
-        debugLog(settings, 'No API key found, starting browser auth flow');
-        apiKey = await startAuthFlow();
-        debugLog(settings, 'Auth flow completed successfully');
-      } catch (authErr) {
-        const isTimeout = authErr.message === 'AUTH_TIMEOUT';
-        writeOutput({
-          hookSpecificOutput: {
-            hookEventName: 'SessionStart',
-            additionalContext: `<supermemory-status>
-${isTimeout ? 'Authentication timed out. Please complete login in the browser window.' : 'Authentication failed.'}
-If the browser did not open, visit: https://console.supermemory.ai/auth/connect
-Or set SUPERMEMORY_CC_API_KEY environment variable manually.
-</supermemory-status>`,
-          },
-        });
-        return;
-      }
-    }
-
-    const client = new SupermemoryClient(apiKey);
+    const client = new LocalMemoryClient(containerTag);
     const profileResult = await client
       .getProfile(containerTag, projectName)
       .catch(() => null);
@@ -74,7 +49,7 @@ Memories will be saved as you work.
     });
   } catch (err) {
     debugLog(settings, 'Error', { error: err.message });
-    console.error(`Supermemory: ${err.message}`);
+    console.error(`LocalMemory: ${err.message}`);
     writeOutput({
       hookSpecificOutput: {
         hookEventName: 'SessionStart',
@@ -88,6 +63,6 @@ Session will continue without memory context.
 }
 
 main().catch((err) => {
-  console.error(`Supermemory fatal: ${err.message}`);
+  console.error(`LocalMemory fatal: ${err.message}`);
   process.exit(1);
 });

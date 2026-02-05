@@ -1,9 +1,8 @@
 {
-  "name": "claude-supermemory",
-  "version": "0.0.1",
-  "description": "Persistent memory across Claude Code sessions using Supermemory",
+  "name": "claude-local-memory",
+  "version": "0.1.0",
+  "description": "Persistent local memory for Claude Code using SQLite",
   "author": {
-    "name": "Supermemory",
-    "email": "support@supermemory.ai"
+    "name": "claude-local-memory"
   }
 }

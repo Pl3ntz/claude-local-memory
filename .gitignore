@@ -4,3 +4,7 @@ node_modules/
 .env
 .env.local
 .plan
+*.db
+*.db-wal
+*.db-shm
+coverage/

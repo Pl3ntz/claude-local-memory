@@ -1,16 +1,14 @@
 {
-  "name": "claude-supermemory",
-  "version": "1.0.0",
-  "description": "Persistent memory for Claude Code using Supermemory",
+  "name": "claude-local-memory",
+  "version": "0.1.0",
+  "description": "Persistent local memory for Claude Code using SQLite",
   "private": true,
   "engines": {
     "node": ">=18.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/supermemoryai/claude-supermemory"
+  "dependencies": {
+    "better-sqlite3": "^12.6.2"
   },
-  "keywords": ["claude-code", "plugin", "supermemory", "memory", "ai"],
-  "author": "Supermemory",
+  "keywords": ["claude-code", "plugin", "memory", "sqlite", "local"],
   "license": "MIT"
 }
